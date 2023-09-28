@@ -87,74 +87,77 @@ class _NewExpenseState extends State<NewExpense> {
 
   @override
   Widget build(BuildContext context) {
+    final keyboardSpace = MediaQuery.of(context).viewInsets.bottom;
     return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 48, 16, 16),
-      child: Column(
-        children: [
-          TextField(
-            controller: _titleController,
-            maxLength: 50,
-            decoration: const InputDecoration(
-              label: Text('Title'),
+      padding: EdgeInsets.fromLTRB(16, 16, 16, keyboardSpace + 16),
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            TextField(
+              controller: _titleController,
+              maxLength: 50,
+              decoration: const InputDecoration(
+                label: Text('Title'),
+              ),
             ),
-          ),
-          Row(
-            children: [
-              Expanded(
-                child: TextField(
-                  controller: _amountController,
-                  decoration: const InputDecoration(
-                    prefixText: '₹ ',
-                    label: Text('Amount'),
-                  ),
-                  keyboardType: TextInputType.number,
-                ),
-              ),
-              const SizedBox(width: 16),
-              Expanded(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(_selectedDate != null
-                        ? formatter.format(_selectedDate!)
-                        : 'No date selected'),
-                    IconButton(
-                      onPressed: _presentDatePicker,
-                      icon: const Icon(Icons.calendar_month),
+            Row(
+              children: [
+                Expanded(
+                  child: TextField(
+                    controller: _amountController,
+                    decoration: const InputDecoration(
+                      prefixText: '₹ ',
+                      label: Text('Amount'),
                     ),
-                  ],
+                    keyboardType: TextInputType.number,
+                  ),
                 ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 16),
-          Row(
-            children: [
-              DropdownButton(
-                value: _selectedCategory,
-                items: Category.values
-                    .map(
-                      (category) => DropdownMenuItem(
-                        value: category,
-                        child: Text(category.name.toUpperCase()),
+                const SizedBox(width: 16),
+                Expanded(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(_selectedDate != null
+                          ? formatter.format(_selectedDate!)
+                          : 'No date selected'),
+                      IconButton(
+                        onPressed: _presentDatePicker,
+                        icon: const Icon(Icons.calendar_month),
                       ),
-                    )
-                    .toList(),
-                onChanged: _selectCategoryHandler,
-              ),
-              const Spacer(),
-              TextButton(
-                onPressed: _cancelModalHandler,
-                child: const Text('Cancel'),
-              ),
-              ElevatedButton(
-                onPressed: _saveExpenseHandler,
-                child: const Text('Save Expense'),
-              ),
-            ],
-          )
-        ],
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 16),
+            Row(
+              children: [
+                DropdownButton(
+                  value: _selectedCategory,
+                  items: Category.values
+                      .map(
+                        (category) => DropdownMenuItem(
+                          value: category,
+                          child: Text(category.name.toUpperCase()),
+                        ),
+                      )
+                      .toList(),
+                  onChanged: _selectCategoryHandler,
+                ),
+                const Spacer(),
+                TextButton(
+                  onPressed: _cancelModalHandler,
+                  child: const Text('Cancel'),
+                ),
+                ElevatedButton(
+                  onPressed: _saveExpenseHandler,
+                  child: const Text('Save Expense'),
+                ),
+              ],
+            )
+          ],
+        ),
       ),
     );
   }
